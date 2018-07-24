@@ -7,8 +7,12 @@ Penelitian ini bertujuan untuk melakukan prediksi dan pemberian visual pada bagi
 ## Prosedur
 
 - Dataset yang dijadikan bahan penelitian adalah file dengan kategori NIFTI (bold.nii). 
-- Dataset yang digunakan adalah sub-01_task-balloonanalogrisktask_run-01_bold.nii.gz yang diambil dari https://openneuro.org/datasets/ds000001/.
+- Dataset yang digunakan adalah sub-01_task-balloonanalogrisktask_run-01_bold.nii.gz 
 - Objek ini memiliki 4 dimensi D[x, y, z, t] di mana x, y ∈ {1, ..., 64}, z ∈ {1, ..., 33}, dan t ∈ {1, ..., 210}. 
+- Prediksi dilakukan terhadap respon hemodynamic dari setiap voxel. Untuk melakukan hal ini, dilakukan kernel non-parametric regression dari D[x, y, z, t] terhadap t di mana t adalah variabel waktu.
+<p align="center"><img src="http://latex.codecogs.com/gif.latex?D[x,y,z,t]=&space;\muµ_{x,y,z}(t)&plus;\epsilon_{x,y,z}(t)" /></p>
+- Pada rumus di atas, µ adalah fungsi yang akan dihitung. Penentu untuk µ(ti) adalah sebagai berikut:
+<p align="center"><img src="http://latex.codecogs.com/gif.latex?\hat{\mu}(ti)=\frac{\sum&space;D_{x,y,z}(ti)K(\frac{t_{1}-t}{h})}{\sum&space;K(\frac{t_{1}-t}{h})}" title="\hat{\mu}(ti)=\frac{\sum D_{x,y,z}(ti)K(\frac{t_{1}-t}{h})}{\sum K(\frac{t_{1}-t}{h})}" /></p>
 - Setiap pasangan (x, y, z) disebut dengan voxel yang dapat diibaratkan seperti pixel 3 dimensi. 
 
 ## Library R
@@ -59,13 +63,14 @@ Hasil prediksi ditampilkan dalam bentuk `heatmap` menggunakan `library(NeatMap)`
 ### 5. Visualisasi data 
 Data akan ditampilkan secara visual dalam bentuk plot menggunakan aplikasi Shiny. Library yang digunakan adalah `library(Shiny)` dan `library(datasets)`. Plot yang ditampilkan adalah:
 - Heatmap
+
 - Hasil *Activity* pada voxel tertentu (yang dipilih)
 
 
 
 
 
-Member of group project:
+Anggota proyek kelompok:
 <table>
   <tr>
     <th>No</th>
@@ -90,8 +95,8 @@ Member of group project:
   
 ## References
 1. Voxel Activity Prediction http://users.stat.umn.edu/~gall0441/images/Openfmri_Voxel_Activity_Prediction.pdf
-2. Dataset https://openneuro.org/datasets/ds000117/
+2. Dataset https://openneuro.org/datasets/ds000001/
 
-## Disclaimer:
+## Disclaimer
 
 Percobaan ini dilakukan dengan mengikuti OpenfMRI Voxel Activity Prediction karya Matt Galloway dengan dilakukan beberapa modifikasi untuk tujuan studi. Data disediakan oleh organisasi OpenfMRI (openfmri.org) yang berfokus pada open-source dan berbagi dataset MRI (magnetic resonance imaging).
