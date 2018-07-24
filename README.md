@@ -11,9 +11,9 @@ Penelitian ini bertujuan untuk melakukan prediksi dan pemberian visual pada bagi
 - Objek ini memiliki 4 dimensi D[x, y, z, t] di mana x, y ∈ {1, ..., 64}, z ∈ {1, ..., 33}, dan t ∈ {1, ..., 210}. 
 - Prediksi dilakukan terhadap respon hemodynamic dari setiap voxel. Untuk melakukan hal ini, dilakukan kernel non-parametric regression dari D[x, y, z, t] terhadap t di mana t adalah variabel waktu.
 <p align="center"><img src="http://latex.codecogs.com/gif.latex?D[x,y,z,t]=&space;\muµ_{x,y,z}(t)&plus;\epsilon_{x,y,z}(t)" /></p>
-- Pada rumus di atas, µ adalah fungsi yang akan dihitung. Penentu untuk µ(ti) adalah sebagai berikut:
+  Pada rumus di atas, µ adalah fungsi yang akan dihitung. Penentu untuk µ(ti) adalah sebagai berikut:
 <p align="center"><img src="http://latex.codecogs.com/gif.latex?\hat{\mu}(ti)=\frac{\sum&space;D_{x,y,z}(ti)K(\frac{t_{1}-t}{h})}{\sum&space;K(\frac{t_{1}-t}{h})}" title="\hat{\mu}(ti)=\frac{\sum D_{x,y,z}(ti)K(\frac{t_{1}-t}{h})}{\sum K(\frac{t_{1}-t}{h})}" /></p>
-- Setiap pasangan (x, y, z) disebut dengan voxel yang dapat diibaratkan seperti pixel 3 dimensi. 
+  Setiap pasangan (x, y, z) disebut dengan voxel yang dapat diibaratkan seperti pixel 3 dimensi. 
 
 ## Library R
 
@@ -46,8 +46,10 @@ Tahapan *train* menggunakan `library(locfit)`:
   - `Bandwidth` yang digunakan diambil dari statistic model `kernel density estimation`
 - Menggunakan `local polynomial model` yang didalamnya terdapat fitting process berdasarkan `bandwidth` (jumlah voxel yang ingin          diteliti) dengan menggunakan fungsi `locfit()`
 - Dicari `bandwidth` yang  menampilkan `balance` antara variansi dan hasil prediksi
-- `Hasil pertama akan menampilkan MSE dari train dan validasi`
-- Kesimpulannya pada hasil MSE pada `bandwidth` adalah semakin besar `bandwidth` yang digunakan, mengakibatkan variansinya semakin besar dan sebaliknya. Dipilih bandwidth 20 karena diatasnya sudah memiliki variansi yang kecil
+- Hasil pertama akan menampilkan MSE dari train dan validasi 
+<p align="center"><img src="https://github.com/marcelcp/AnalysisMRI/blob/master/MSE_result.png" /></p><br />
+Kesimpulan dari hasil MSE pada `bandwidth` adalah semakin kecil `bandwidth` yang digunakan, mengakibatkan variansinya semakin besar dan sebaliknya. Dipilih bandwidth 20 karena diatasnya sudah memiliki variansi yang kecil<br /><br />
+
 
 Tahapan prediksi menggunakan `library(locfit)`:
 - Dari bandwidth 20 akan dilakukan proses `local linear regression` dari hasil prediksi `local polynomial model` dengan menggunakan fungsi `lm()`
@@ -62,12 +64,16 @@ Hasil prediksi ditampilkan dalam bentuk `heatmap` menggunakan `library(NeatMap)`
 
 ### 5. Visualisasi data 
 Data akan ditampilkan secara visual dalam bentuk plot menggunakan aplikasi Shiny. Library yang digunakan adalah `library(Shiny)` dan `library(datasets)`. Plot yang ditampilkan adalah:
-- Heatmap
-
-- Hasil *Activity* pada voxel tertentu (yang dipilih)
-
-
-
+- Heatmap:<br />
+  <p align="center">Bandwidth 5:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/bandwidth_5.png" /></p>
+  <p align="center">Bandwidth 20:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/bandwidth_20.png" /></p>
+  <p align="center">Bandwidth 35:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/bandwidth_35.png" /></p>
+  
+  
+- Hasil Graph Voxel Activity pada [21,41,20]:<br />
+  <p align="center">Bandwidth 5:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/activity%5B21%2C41%2C20%5D/graph_band_5.png" /></p>
+  <p align="center">Bandwidth 20:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/activity%5B21%2C41%2C20%5D/graph_band_20.png" /></p>
+  <p align="center">Bandwidth 35:</br><img src="https://raw.githubusercontent.com/marcelcp/AnalysisMRI/master/result_zplane%3D16/activity%5B21%2C41%2C20%5D/graph_band_35.png" /></p>
 
 
 Anggota proyek kelompok:
