@@ -40,7 +40,7 @@ getLinear <- function(modelPoly){
 train <- function(bandwidth){
   print(head(voxels))
   
-  # we choose bandwidth 15 
+  # we choose bandwidth 
   h = bandwidth
   
   
@@ -58,6 +58,15 @@ train <- function(bandwidth){
           x = (1:L)
           
           # fit local polynomial model with specified bandwidth 
+          model = locfit(y[index_train] ~ lp(x[index_train], deg = 2, h = h))
+          # calculate training and validation error 
+          MSE_train = mean((predict(model, x[index_train]) - y[index_train])^2) 
+          MSE_valid = mean((predict(model, x[index_valid]) - y[index_valid])^2)
+          MSEs_train = c(MSEs_train, MSE_train) 
+          MSEs_valid = c(MSEs_valid, MSE_valid)
+          
+          
+          # fit local polynomial model with specified bandwidth 
           model_poly = locfit(y ~ lp(x, deg = 2, h = h))
           
           # generate predictions for all 210 time points 
@@ -69,11 +78,14 @@ train <- function(bandwidth){
           # we measure activity as the MSE between local polynomial and linear model 
           activity[i, j, k] = mean((predictions - predict(model_linear, data.frame(x)))^2)
           #print(summary(activity))
-         
+          
         }
       }
     }
   }
+  # print out MSE's 
+  print(c(h, mean(MSEs_train), mean(MSEs_valid)))
+  
   return(activity)
 }
 

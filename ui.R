@@ -5,12 +5,10 @@ shinyUI(
     headerPanel("Voxel Activity Prediction"),
     
     sidebarPanel(
-      selectInput("Distribution","",
-                  choices = c("-")),
-      
       
       sliderInput("bandwidth","Please Select Bandwith: ",
                   min=5,max =35,value = 35, step=5),
+                  #min=5,max =15,value = 5, step=5),
       
       sliderInput("zplane","Please Select z plane: ",
                   min=1,max=33,value = 16, step=1),

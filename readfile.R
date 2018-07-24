@@ -1,19 +1,18 @@
 library(fmri)
+
+# use getwd() in console to get the path
+# load the data  
 path<-("bold1.nii") 
 data = read.NIFTI(path) 
 
 getMask <- function(){
+
+  # extract mask from NIFTI file  
   mask = data$mask
   return(mask)
 }
 
 getActivity <- function(mask){
-  # use getwd() in console to get the path
-  # load the data  
-  
-  
-  # extract mask from NIFTI file  
-   
   
   # denote activity = mask, arbitrarily (used later)  
   activity = mask
@@ -21,7 +20,6 @@ getActivity <- function(mask){
 }
 
 getVoxels <- function(){
-  
   
   # extract voxel intensities  
   voxels = extract.data(data) 
